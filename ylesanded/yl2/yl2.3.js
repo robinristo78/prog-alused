@@ -1,5 +1,4 @@
 const readline = require('node:readline');
-const { isNumberObject } = require('node:util/types');
 
 const rl = readline.createInterface(
    {
