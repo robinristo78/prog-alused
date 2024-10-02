@@ -16,7 +16,7 @@ rl.question('Kas soovite istekohta ise valida ("ise") või loosida ("loos")? ', 
 
     if (iste == "loos"){
         let akenprob = suvanumber();
-        console.log(akenprob);
+        //console.log(akenprob);
 
         if (akenprob >= 2) {
             tulemusaken = "Vahekäigukoht";
@@ -36,6 +36,4 @@ rl.question('Kas soovite istekohta ise valida ("ise") või loosida ("loos")? ', 
         console.log('USER ERROR: peab sisestama "ise" või loos');
         
     }
-    
-    
 }); 
