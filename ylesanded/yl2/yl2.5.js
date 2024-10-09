@@ -23,17 +23,23 @@ rl.question('Sisestage kirja suurus megabaitides: ', suurus =>{
                     process.exit();
                 }
 
-                // kirjal ei ole teema pealkirja,
+                // kirjal ei ole teema pealkirja
+                // või
                 // kiri sisaldab manusena faili 
                 // ja kirja suurus ületab 1 MB.
                 
                 let filter1 = (pealkiri == "") ? true : false;
-                let filter2 = false;
-                let filter3 = false;
-                
-                // if (){
+                let filter2 = (manus === "y") ? true : false;
+                let filter3 = (suurus > 1) ? true : false;
 
-                // } 
+                console.log(filter1, filter2, filter3);
+                
+                if (filter1 ||  (filter2 && filter3)){
+                    console.log("Kiri on spämm!");
+                } 
+                else {
+                    console.log("Kiri ei ole spämm.");
+                } 
 
                 rl.close();
             }); 
