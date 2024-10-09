@@ -32,7 +32,7 @@ rl.question('Sisestage kirja suurus megabaitides: ', suurus =>{
                 let filter2 = (manus === "y") ? true : false;
                 let filter3 = (suurus > 1) ? true : false;
 
-                console.log(filter1, filter2, filter3);
+                // console.log(filter1, filter2, filter3);
                 
                 if (filter1 ||  (filter2 && filter3)){
                     console.log("Kiri on spämm!");
