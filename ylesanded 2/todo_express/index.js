@@ -11,9 +11,9 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/about', (req, res) => {
-    res.send('test changes');
-});
+// app.get('/about', (req, res) => {
+//     res.send('test changes');
+// });
 
 app.listen(3001, () => {
     console.log('Server started at http://localhost:3001');
