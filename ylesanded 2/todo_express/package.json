@@ -1,0 +1,18 @@
+{
+    "name": "todo_express",
+    "version": "1.0.0",
+    "description": "Simple project with UI, HTTP POST and GET queries, FS",
+    "main": "index.js",
+    "scripts": {},
+    "keywords": [
+        "web",
+        "express",
+        "template",
+        "ejs"
+    ],
+    "author": "Robin Risto Kivit",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.21.1"
+    }
+}
