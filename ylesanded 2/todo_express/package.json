@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "description": "Simple project with UI, HTTP POST and GET queries, FS",
     "main": "index.js",
-    "scripts": {},
+    "scripts": {
+        "start": "nodemon index.js"
+    },
     "keywords": [
         "web",
         "express",
@@ -13,6 +15,10 @@
     "author": "Robin Risto Kivit",
     "license": "ISC",
     "dependencies": {
+        "ejs": "^3.1.10",
         "express": "^4.21.1"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.7"
     }
 }
