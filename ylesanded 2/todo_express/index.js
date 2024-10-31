@@ -4,9 +4,9 @@ const fs = require('node:fs');
 
 const app = express();
 
-const readFile = (filename) =>{
+const readFile = (filename) => {
     return new Promise((resolve, reject) => { 
-        fs.readFile('./tasks.json', 'utf-8', (error, data) => {
+        fs.readFile(filename, 'utf-8', (error, data) => {
             if (error) {
                 console.error(error);
                 return;
@@ -56,7 +56,7 @@ app.post('/', (req, res) => {
         // tasks.push(req.body.task);
         // const data = tasks.join('\n');
         // console.log(data);
-        
+
         let index;
         if (tasks.length === 0) {
             index = 0;
