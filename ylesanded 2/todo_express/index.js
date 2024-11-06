@@ -13,7 +13,9 @@ const readFile = (filename) => {
                 return;
             }
 
-            const tasks = JSON.parse(data);
+            // kontrollib kas tasks.json on tühi ja... 
+            // kui on tühi siis ära tee JSON.parse(data), kuna see võib lehekülje katki teha.
+            const tasks = data.trim() === '' ? [] : JSON.parse(data);
             resolve(tasks);
         });
     });
