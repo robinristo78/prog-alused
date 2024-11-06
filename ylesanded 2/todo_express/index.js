@@ -36,7 +36,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.get('/', (req, res) => {
 
     readFile('./tasks.json').then(tasks => {
-        console.log(tasks);
+        // console.log(tasks);
         res.render('index', {tasks: tasks});
     });
 
@@ -80,15 +80,33 @@ app.post('/', (req, res) => {
 // });
 
 app.get('/delete-task/:taskId', (req, res) => {
-    let deletedTaskId = parseInt(req.params.taskId);
+    let deletedTaskId;
+    
+    if (req.params.taskId == "all") {
+        deletedTaskId = req.params.taskId;
+    }
+    else { 
+        deletedTaskId = parseInt(req.params.taskId);
+    }
 
     readFile('./tasks.json').then(tasks => {
         tasks.forEach((task, index) => {
-            if (task.id === deletedTaskId) {
+            // kui deletedTaskId == "all", siis jäta forEach vahele.
+            if (deletedTaskId == "all") {
+                return;
+            } 
+            else if (task.id === deletedTaskId) {
                 tasks.splice(index, 1);
                 console.log('Successfully deleted', task.task);
             }  
         });
+
+        // kui deletedTaskId == "all", 
+        // siis kustuta kõik tasks, sätides tasks array pikkuse nulliks.
+        if (deletedTaskId == "all") {
+            tasks.length = 0;
+            console.log('All tasks successfully deleted');
+        }
         data = JSON.stringify(tasks, null, 2);
 
         writeFile('./tasks.json', data);
