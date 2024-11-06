@@ -70,9 +70,9 @@ app.post('/', (req, res) => {
         data = JSON.stringify(tasks, null, 2);
 
         writeFile('./tasks.json', data);
-
-        res.redirect('/');
     });
+    // tuleb väljapool readFile-i teha redirect muidu leht ei lae õigesti.
+    res.redirect('/');
 });
 
 // app.get('/about', (req, res) => {
@@ -81,6 +81,7 @@ app.post('/', (req, res) => {
 
 app.get('/delete-task/:taskId', (req, res) => {
     let deletedTaskId = parseInt(req.params.taskId);
+
     readFile('./tasks.json').then(tasks => {
         tasks.forEach((task, index) => {
             if (task.id === deletedTaskId) {
@@ -92,8 +93,9 @@ app.get('/delete-task/:taskId', (req, res) => {
 
         writeFile('./tasks.json', data);
 
-        res.redirect('/');
     });
+    // tuleb väljapool readFile-i teha redirect muidu leht ei lae õigesti.
+    res.redirect('/');
 });
 
 console.log('in app');
