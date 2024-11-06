@@ -18,6 +18,17 @@ const readFile = (filename) => {
     });
 }
 
+const writeFile = (filename, data) => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(filename, data, 'utf-8', error => {
+            if (error) {
+                console.error(error);
+                return;
+            }
+            resolve(true);
+        });
+    });
+} 
 
 app.set('view engine', "ejs");
 app.set('views', path.join(__dirname, 'views'));
@@ -58,15 +69,9 @@ app.post('/', (req, res) => {
 
         data = JSON.stringify(tasks, null, 2);
 
-        fs.writeFile('./tasks.json', data, error => {
-            if (error) {
-                console.error(error);
-                return;
-            } else {
-                console.log('saved');
-            } 
-            res.redirect('/');
-        });
+        writeFile('./tasks.json', data);
+
+        res.redirect('/');
     });
 });
 
@@ -84,16 +89,11 @@ app.get('/delete-task/:taskId', (req, res) => {
             }  
         });
         data = JSON.stringify(tasks, null, 2);
-        fs.writeFile('./tasks.json', data, 'utf-8', err => {
-            if (err) {
-                console.error(err);
-                return;
-            }
 
-            res.redirect('/');
-        });
+        writeFile('./tasks.json', data);
+
+        res.redirect('/');
     });
-    
 });
 
 console.log('in app');
