@@ -28,26 +28,20 @@
                             <form class="col s12" method="post" action="/">
                                 <div class="row">
                                     <div class="input-field col s6">
-                                        <input placeholder="Task name" id="task" type="text" class="validate" name="task">
-                                        <label for="task">Insert Task</label>
+                                        <input value="<%= taskName %>" id="task" type="text" class="validate" name="task">
+                                        <label for="task">Update Task</label>
                                     </div>
                                 </div>
-                                <input type="submit" value="Add Task" class="btn">
+                                <input type="submit" value="Update Task" class="btn">
                             </form>
                         </div>
                     </div>
                     <div class="card-action">
                         <ul class="collection">
-                            <% tasks.forEach(task => { %>
-                                <li class="collection-item">
-                                    <%= task.task %>
-                                    <a href="/delete-task/<%= task.id %>" class="secondary-content"><i class="material-icons">delete</i></a>
-                                    <a href="/update-task/<%= task.id %>" class="secondary-content"><i class="material-symbols-outlined">edit</i></a>
-                                </li>
-                            <% }) %>
+                            ...
                         </ul>
-                    <!-- CLEAR ALL Button -->
-                    <a href="delete-task/all" class="btn">CLEAR ALL</a>
+                    <!-- CLEAR ALL Button
+                    <a href="delete-task/all" class="btn">CLEAR ALL</a> -->
                     </div>
                 </div>
             </div>

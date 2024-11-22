@@ -47,6 +47,17 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/update', (req, res) => {
+    // tasks list data from file
+    readFile('./tasks.json').then(tasks => {
+        // console.log(tasks);
+        res.render('update', {
+            tasks: tasks,
+            error: null
+        });
+    });
+  });
+
 app.use(express.urlencoded( { extended: true} ));
 
 app.post('/', (req, res) => {
@@ -128,6 +139,46 @@ app.get('/delete-task/:taskId', (req, res) => {
     });
     // tuleb väljapool readFile-i teha redirect muidu leht ei lae õigesti.
     res.redirect('/');
+});
+
+app.get('/update-task/:TaskId', (req, res) => {
+    let updatedTaskId = req.params.TaskId;
+    let error = null;
+    let taskName;
+    
+
+    //Read the tasks.json,
+    readFile('./tasks.json').then(tasks => {
+        //find the task,
+        tasks.forEach((task, index) => {
+            if (task.id == updatedTaskId) {
+                taskName = task.task;
+                console.log('edit task:',taskName);
+            }
+        });
+
+        //kui millegi pärast ei leia taski, siis jäta vahele ja esita error.
+        if (taskName !== null) {
+            res.render('update', {
+                tasks: tasks,
+                taskId: updatedTaskId,
+                taskName: taskName,
+                error: error });
+        } 
+        else {
+            error = 'ERROR: Task not found!';
+            res.render('index', {
+                tasks: tasks,
+                error: error
+            });
+        }
+    });
+
+    //set previous elements to be 'display: none' & new elements to be 'display: block / inline;'(?);
+    //set task name as content of the input,
+    //pressing 'Update Task' will Write the update to the task
+
+
 });
 
 console.log('in app');
