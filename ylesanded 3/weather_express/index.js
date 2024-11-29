@@ -1,3 +1,4 @@
+const { error } = require('console');
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -29,7 +30,8 @@ const getWeatherData = (city) => {
                 const result = { 
                     description: description,
                     city: city,
-                    temp: temp
+                    temp: temp,
+                    error: null
                 }
                 resolve(result);
             })
@@ -50,6 +52,11 @@ app.all('/', (req, res) => {
     getWeatherData(city)
         .then((data) => {
             res.render('index', data);
+        })
+        .catch(error => {
+            res.render('index', {
+                error: 'Problem with getting data, try again...'
+            });
         });
 });
 
