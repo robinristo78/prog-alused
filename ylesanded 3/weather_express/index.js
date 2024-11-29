@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const { deserialize } = require('v8');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -14,48 +13,61 @@ app.use(express.urlencoded({extended: true}));
 const key = '86688134c6cbfc0eac1d2522e5772aea'; //API Key
 let city = 'Tartu';
 
-app.get('/', (req, res) => {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`)
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            // console.log(data);
-            let description = data.weather[0].description;
-            let city = data.name;
-            let temp = Math.round(parseFloat(data.main.temp)-273.15);
-            // console.log(description);
-            // console.log(city);
-            // console.log(temp);
-            res.render('index', {
-                description: description,
-                city: city,
-                temp: temp
-        });
+const getWeatherData = (city) => {
+    return new Promise((resolve, reject) => {
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`;
+        fetch(url)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+
+                let description = data.weather[0].description;
+                let city = data.name;
+                let temp = Math.round(parseFloat(data.main.temp)-273.15);
+
+                const result = { 
+                    description: description,
+                    city: city,
+                    temp: temp
+                }
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            });
     });
+}
+
+app.all('/', (req, res) => {
+    let city;
+    if (req.method == 'GET') {
+        city = 'Tartu';
+    }
+    else if (req.method == 'POST') {
+        city = req.body.cityname;
+    }
+    getWeatherData(city)
+        .then((data) => {
+            res.render('index', data);
+        });
 });
 
-app.post('/', (req, res) => {
-    // console.log('form sent data');
-    // console.log(req.body);
-    // res.redirect('/');
+// app.get('/', (req, res) => {
+//     let city = 'Tartu';
+//     getWeatherData(city)
+//     .then((data) => {
+//         res.render('index', data);
+//     });
+// });
 
-    let city = req.body.cityname;
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`)
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            let description = data.weather[0].description;
-            let city = data.name;
-            let temp = Math.round(parseFloat(data.main.temp)-273.15);
-            res.render('index', {
-                description: description,
-                city: city,
-                temp: temp
-        });
-    });
-});
+// app.post('/', (req, res) => {
+//     let city = req.body.cityname;
+//     getWeatherData(city)
+//     .then((data) => {
+//         res.render('index', data);
+//     });
+// });
 
 app.listen(3002);
 
