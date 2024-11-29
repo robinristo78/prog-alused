@@ -153,14 +153,13 @@ app.get('/update-task/:TaskId', (req, res) => {
         tasks.forEach((task, index) => {
             if (task.id == updatedTaskId) {
                 taskName = task.task;
-                console.log('edit task:',taskName);
+                console.log('edit task:', taskName);
             }
         });
 
         //kui millegi pärast ei leia taski, siis jäta vahele ja esita error.
         if (taskName !== null) {
             res.render('update', {
-                tasks: tasks,
                 taskId: updatedTaskId,
                 taskName: taskName,
                 error: error });
