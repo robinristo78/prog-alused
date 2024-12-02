@@ -144,7 +144,7 @@ app.get('/delete-task/:taskId', (req, res) => {
 app.get('/update-task/:TaskId', (req, res) => {
     let updatedTaskId = req.params.TaskId;
     let error = null;
-    let taskName;
+    let updateTask;
     
 
     //Read the tasks.json,
@@ -152,16 +152,19 @@ app.get('/update-task/:TaskId', (req, res) => {
         //find the task,
         tasks.forEach((task, index) => {
             if (task.id == updatedTaskId) {
-                taskName = task.task;
+                let taskName = task.task;
+                updateTask = {
+                    "id": parseInt(updatedTaskId),
+                    "task": taskName
+                }
             }
         });
 
         //kui millegi pärast ei leia taski, siis jäta vahele ja esita error.
-        if (taskName !== null) {
-            console.log('Task for updating =>', 'id:', updatedTaskId + ',', 'taskName:', taskName);
+        if (updateTask !== null) {
+            console.log('Task for updating =>', updateTask);
             res.render('update', {
-                taskId: updatedTaskId,
-                taskName: taskName,
+                task: updateTask,
                 error: error 
             });
         } 
@@ -193,20 +196,19 @@ app.get('/update-task/:TaskId', (req, res) => {
         else {
             readFile('./tasks.json')
                 .then(tasks => {
-                    let index;
                     tasks.forEach((task, i) => {
                         if (task.id === taskId) {
-                            index = i;
-                            return;
+
+                            tasks[i].task = taskName;
+
+                            data = JSON.stringify(tasks, null, 2);
+                            writeFile('./tasks.json', data);
+
+                            console.log('Task data from update form =>', tasks[i]);
+
+                            res.redirect('/');
                         }
                     });
-
-                    tasks[index].task = taskName;
-
-                    data = JSON.stringify(tasks, null, 2);
-                    writeFile('./tasks.json', data);
-
-                    res.redirect('/');
                 });
         }
     });
