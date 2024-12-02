@@ -153,16 +153,17 @@ app.get('/update-task/:TaskId', (req, res) => {
         tasks.forEach((task, index) => {
             if (task.id == updatedTaskId) {
                 taskName = task.task;
-                console.log('edit task:', taskName);
             }
         });
 
         //kui millegi pärast ei leia taski, siis jäta vahele ja esita error.
         if (taskName !== null) {
+            console.log('Task for updating =>', 'id:', updatedTaskId + ',', 'taskName:', taskName);
             res.render('update', {
                 taskId: updatedTaskId,
                 taskName: taskName,
-                error: error });
+                error: error 
+            });
         } 
         else {
             error = 'ERROR: Task not found!';
@@ -173,14 +174,47 @@ app.get('/update-task/:TaskId', (req, res) => {
         }
     });
 
-    //set previous elements to be 'display: none' & new elements to be 'display: block / inline;'(?);
-    //set task name as content of the input,
     //pressing 'Update Task' will Write the update to the task
+
+    app.post('/update/:taskId', (req, res) => {
+        const taskId = parseInt(req.params.taskId);
+        const taskName = req.body.task;
+
+        if (req.body.task.trim().length == 0) {
+            error = 'Please insert correct task data';
+            readFile('./tasks.json').then(tasks => {
+                res.render('update', {
+                    taskId: taskId,
+                    taskName: taskName,
+                    error: error 
+                });
+            });
+        }
+        else {
+            readFile('./tasks.json')
+                .then(tasks => {
+                    let index;
+                    tasks.forEach((task, i) => {
+                        if (task.id === taskId) {
+                            index = i;
+                            return;
+                        }
+                    });
+
+                    tasks[index].task = taskName;
+
+                    data = JSON.stringify(tasks, null, 2);
+                    writeFile('./tasks.json', data);
+
+                    res.redirect('/');
+                });
+        }
+    });
 
 
 });
 
-console.log('in app');
+// console.log('in app');
 app.listen(3001, () => {
     console.log('Server started at http://localhost:3001');
 });
