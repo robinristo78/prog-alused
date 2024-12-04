@@ -1,0 +1,15 @@
+{
+  "name": "todo-express-oop",
+  "version": "1.0.0",
+  "description": "todo express in OOP",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
