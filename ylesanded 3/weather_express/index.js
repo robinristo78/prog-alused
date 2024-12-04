@@ -48,6 +48,14 @@ app.all('/', (req, res) => {
     }
     else if (req.method == 'POST') {
         city = req.body.cityname;
+        let error = city.trim().length == 0 ? 'Your input is empty, please use correct city value.' : null;
+        
+        if (error !== 0) {
+            res.render('index', {
+                error: error
+            });
+            return;
+        } 
     }
     getWeatherData(city)
         .then((data) => {
