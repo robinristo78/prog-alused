@@ -50,7 +50,7 @@ app.all('/', (req, res) => {
         city = req.body.cityname;
         let error = city.trim().length == 0 ? 'Your input is empty, please use correct city value.' : null;
         
-        if (error !== 0) {
+        if (error) {
             res.render('index', {
                 error: error
             });
@@ -84,7 +84,9 @@ app.all('/', (req, res) => {
 //     });
 // });
 
-app.listen(3002);
+app.listen(3002, () => {
+    console.log('Server started at http://localhost:3002');
+});
 
 //https://api.openweathermap.org/data/2.5/weather?q=London
 //&appid=86688134c6cbfc0eac1d2522e5772aea
