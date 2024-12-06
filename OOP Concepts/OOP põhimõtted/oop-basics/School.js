@@ -4,9 +4,9 @@ const Course = require('./Course');
 class School {
     constructor(name){
         this.name = name;
+        this.ageMin = 6;
         this.students = [];
         this.courses = [];
-        this.ageMin = 6;
     }
 
     addCourse(newCourse){
