@@ -26,7 +26,12 @@ class Student extends Person {
 
     getAverageGrade(){
         if (this.hinded.length === 0) return -1;
-        const total = this.hinded.reduce((sum, entry) => sum + entry.grade, 0);
+
+        let total = 0;
+        this.hinded.forEach(entry => {
+            total += entry.grade;
+        });
+
         return total / this.hinded.length;
     }
 

@@ -6,6 +6,7 @@ class School {
         this.name = name;
         this.students = [];
         this.courses = [];
+        this.ageMin = 6;
     }
 
     addCourse(newCourse){
@@ -17,7 +18,7 @@ class School {
 
     addStudent(student){
         // this.students.push(student);
-        if (student.age() >= 6) {
+        if (student.age() >= this.ageMin) {
             if (!this.students.includes(student)) {
                 let newId = this.students.length + 1;
 
@@ -32,8 +33,23 @@ class School {
     }
 
     addStudentGrade(student, course, grade){
-        
-    } 
+        if (this.students.includes(student) && this.courses.includes(course)) {
+            student.addGrade(course, grade);
+            course.addGrade(student, grade);
+        }
+    }
+
+    getStudents(){
+        return this.students;
+    }
+
+    getCourses(){
+        return this.courses;
+    }
+
+    getStudentsOrderedByAverageGrade(){
+        return [...this.students].sort((a, b) => b.getAverageGrade() - a.getAverageGrade());
+    }
 }
 
 module.exports = School;
