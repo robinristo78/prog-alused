@@ -43,6 +43,19 @@ class todoController {
             updatedTask: this.TODOS[todoIndex]
         });
     }
+
+    deleteTodo(req, res){
+        const todoId = req.params.id;
+
+        const todoIndex = this.TODOS.findIndex((todo) => todo.id === todoId);
+
+        this.TODOS.splice(todoIndex, 1);
+
+        res.json({
+            message: 'Deleted todo',
+            deletedTask: this.TODOS[todoIndex]
+        })
+    } 
 }
 
 export const TodoController = new todoController();
