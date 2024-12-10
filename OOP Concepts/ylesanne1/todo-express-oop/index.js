@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 //     });
 // });
 
+app.use(express.urlencoded({extended: true}));
+
 app.use('/todos', todoRoutes);
 
 app.listen(3003, () => {
