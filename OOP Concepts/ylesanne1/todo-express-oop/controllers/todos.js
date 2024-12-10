@@ -49,11 +49,13 @@ class todoController {
 
         const todoIndex = this.TODOS.findIndex((todo) => todo.id === todoId);
 
+        const task = this.TODOS[todoIndex];
+
         this.TODOS.splice(todoIndex, 1);
 
         res.json({
             message: 'Deleted todo',
-            deletedTask: this.TODOS[todoIndex]
+            deletedTask: task
         })
     } 
 }
