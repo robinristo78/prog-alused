@@ -1,11 +1,12 @@
+import { fileManager } from '../files.js';
 import { Todo } from '../models/todo.js'
 
 class todoController {
     constructor(){
-        this.TODOS = []; 
+        this.initTodos();
     }
 
-    createTodo(req, res){
+    async createTodo(req, res){
 
         const task = req.body.task;
 
@@ -13,17 +14,30 @@ class todoController {
 
         this.TODOS.push(newTodo);
 
+        await fileManager.writeFile('./data/todos.json', this.TODOS);
+
         res.json({
             message: 'created new todo object',
             newTask: newTodo
         });
     }
 
+    async initTodos()  {
+        const todosData = await fileManager.readFile('./data/todos.json');
+
+        if (todosData !== null) {
+            this.TODOS = todosData;
+        }
+        else {
+            this.TODOS = [];
+        }
+    } 
+
     getTodos(req, res){
         res.json({tasks: this.TODOS});
     }
     
-    updateTodo(req, res){
+    async updateTodo(req, res){
 
         const todoId = req.params.id;
 
@@ -38,25 +52,36 @@ class todoController {
 
         this.TODOS[todoIndex] = new Todo(this.TODOS[todoIndex].id, updatedTask);
 
+        await fileManager.writeFile('./data/todos.json', this.TODOS);
+
         res.json({
             message: 'Updated todo',
             updatedTask: this.TODOS[todoIndex]
         });
     }
 
-    deleteTodo(req, res){
+    async deleteTodo(req, res){
         const todoId = req.params.id;
 
         const todoIndex = this.TODOS.findIndex((todo) => todo.id === todoId);
 
-        const task = this.TODOS[todoIndex];
+        try {
+            if (this.TODOS[todoIndex].id === todoId) {
+                const task = this.TODOS[todoIndex];
 
-        this.TODOS.splice(todoIndex, 1);
+                this.TODOS.splice(todoIndex, 1);
 
-        res.json({
-            message: 'Deleted todo',
-            deletedTask: task
-        })
+                await fileManager.writeFile('./data/todos.json', this.TODOS);
+
+                res.json({
+                    message: 'Deleted todo',
+                    deletedTask: task
+                });
+            }
+        } catch(error) {
+            console.error('read error =>', error);
+            res.json({message: 'Could not find todo with such id.'});
+        }
     } 
 }
 
