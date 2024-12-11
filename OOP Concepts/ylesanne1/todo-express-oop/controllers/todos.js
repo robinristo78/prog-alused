@@ -43,21 +43,24 @@ class todoController {
 
         const updatedTask = req.body.task;
 
-        const todoIndex = this.TODOS.findIndex((todo) => todo.id === todoId);
+        try {
 
-        if (todoIndex < 0) {
-            throw new Error('Could not find todo!');
-            res.json({message: 'Could not find todo with such index.'});
-        }
+            const todoIndex = this.TODOS.findIndex((todo) => todo.id === todoId);
 
-        this.TODOS[todoIndex] = new Todo(this.TODOS[todoIndex].id, updatedTask);
+            if (todoIndex < 0) {
+                console.error('Could not find todo!');
+                res.json({message: 'Could not find todo with such index.'});
+            }
 
-        await fileManager.writeFile('./data/todos.json', this.TODOS);
+            this.TODOS[todoIndex] = new Todo(this.TODOS[todoIndex].id, updatedTask);
 
-        res.json({
-            message: 'Updated todo',
-            updatedTask: this.TODOS[todoIndex]
-        });
+            await fileManager.writeFile('./data/todos.json', this.TODOS);
+
+            res.json({
+                message: 'Updated todo',
+                updatedTask: this.TODOS[todoIndex]
+            });
+        } catch(error) {} 
     }
 
     async deleteTodo(req, res){
@@ -79,8 +82,8 @@ class todoController {
                 });
             }
         } catch(error) {
-            console.error('read error =>', error);
-            res.json({message: 'Could not find todo with such id.'});
+            console.error('Could not find todo with that id.');
+            res.json({message: 'Could not find todo with that id.'});
         }
     } 
 }
