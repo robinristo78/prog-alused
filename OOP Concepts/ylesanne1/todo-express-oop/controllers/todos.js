@@ -22,7 +22,7 @@ class todoController {
         });
     }
 
-    async initTodos()  {
+    async initTodos(){
         const todosData = await fileManager.readFile('./data/todos.json');
 
         if (todosData !== null) {
