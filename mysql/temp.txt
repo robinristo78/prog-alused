@@ -1,0 +1,17 @@
+CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), favorite_product VARCHAR(255));
+
+CREATE TABLE products (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255));
+
+INSERT INTO users (name, favorite_product) VALUES 
+( 'John', 154),
+( 'Peter', 154),
+( 'Amy', 155);
+
+INSERT INTO users (name) VALUES 
+( 'Hannah'),
+( 'Michael');
+
+INSERT INTO products (id, name) VALUES 
+(154, 'Chocolate Heaven'),
+(155, 'Tasty Lemons'),
+(156, 'Vanilla Dreams');
