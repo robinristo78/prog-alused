@@ -12,9 +12,6 @@ const getAllArticles = (req, res) => {
 const getArticleBySlug = (req, res) => {
     let sql = `SELECT * FROM article WHERE slug="${req.params.slug}"`;
     db.query(sql, (error, result) => {
-        // res.render('article', {
-        //     article: result
-        // });
         const article = result[0];
         let author_id = result[0].author_id;
         let sql =  `SELECT * FROM author WHERE id="${author_id}"`;
@@ -23,7 +20,7 @@ const getArticleBySlug = (req, res) => {
             article['author_name'] = author.name;
             res.render('article', {
                 article: article
-            }); 
+            });
         });
     });
 }
